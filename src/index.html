@@ -1,0 +1,136 @@
+<!doctype html>
+
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <title>Statoscope Sandbox</title>
+  <style>
+    html, body {
+      padding: 0;
+      margin: 0;
+      height: 100%;
+      border: none;
+      -webkit-text-size-adjust: 100%;
+    }
+  </style>
+  <meta name="viewport" content="width=device-width">
+  <meta name="description" content="Statoscope is detailed webpack stats analyzer">
+  <meta property="og:url" content="https://statoscope.tech">
+  <meta property="og:site_name" content="Statoscope">
+  <meta property="og:title" content="Statoscope">
+  <meta property="og:description" content="Statoscope is detailed webpack stats analyzer">
+  <meta property="og:image" content="https://statoscope.tech/statoscope.png">
+  <meta property="og:image:type" content="image/png">
+  <meta property="og:image:width" content="100">
+  <meta property="og:image:height" content="100">
+</head>
+<body>
+<div id="splash">
+  <input id="file-input" type="file" accept="application/json" multiple style="display: none;"/>
+  <div id="splash-content">
+    <h1 class="name">Statoscope 📦</h1>
+    <div class="description">detailed webpack stats analyzer</div>
+
+    <div id="instructions">
+      <div>
+        1. run
+        <div class="command pseudo-link" data-may-copy="true" title="click to copy">
+          webpack --json stats.json
+        </div>
+      </div>
+      <div>
+        2. drop or
+        <div id="upload-button" class="command pseudo-link" title="click to upload">
+          upload
+        </div>
+        stats.json here to know the truth!
+      </div>
+      <br/>
+      <div>
+        Or use
+        <div id="demo-button" class="command pseudo-link" title="click to upload">demo</div>
+        stats.
+      </div>
+      <br/>
+
+      Also, use Statoscope as:
+
+      <ul>
+        <li>
+          <a target="_blank" href="https://github.com/statoscope/statoscope/tree/master/packages/webpack-plugin">Webpack
+            Plugin</a> to analyze stats (more detailed)
+        </li>
+        <li>
+          <a target="_blank" href="https://github.com/statoscope/statoscope/tree/master/packages/cli">CLI</a>
+          to validate your stats on CI
+        </li>
+      </ul>
+
+      <div class="command ps">
+        Drop or upload <b>multiple</b> stats-files to <b>diff</b> the stats. <br>
+        Ensure that you're using
+        <a target="_blank"
+           href="https://github.com/statoscope/statoscope/tree/master/packages/webpack-plugin#which-stats-flags-statoscope-use">correct
+          stats flags</a>.
+      </div>
+    </div>
+
+    <div id="progress" class="hidden"></div>
+    <div id="error" class="hidden"></div>
+  </div>
+  <div id="copyright">
+    <div>
+      created by <a target="_blank" href="https://twitter.com/smelukov">Sergey Melyukov</a>
+    </div>
+    <div>
+      learn more on <a target="_blank" href="https://github.com/statoscope/statoscope">Github</a>
+    </div>
+  </div>
+</div>
+
+<div id="analytics-warning" class="hidden">
+  <div>
+    This website uses cookies to ensure you get the best experience on website.<br>
+    Also, this website collects some anonymous analytics with Google Analytics and Yandex Metrika.<br>
+    This website is opensource software, you can find its source
+    <a href="https://github.com/statoscope/statoscope.tech" target="_blank">here</a>
+  </div>
+  <button id="close-analytics-warning">Got it</button>
+</div>
+
+${process.env.NODE_ENV === 'production' ? `
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-Y88SJKDQDM"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+
+  function gtag() {
+    dataLayer.push(arguments);
+  }
+
+  gtag('js', new Date());
+
+  gtag('config', 'G-Y88SJKDQDM');
+</script>
+
+<script type="text/javascript">
+  (function (m, e, t, r, i, k, a) {
+    m[i] = m[i] || function () {
+      (m[i].a = m[i].a || []).push(arguments)
+    };
+    m[i].l = 1 * new Date();
+    k = e.createElement(t), a = e.getElementsByTagName(t)[0], k.async = 1, k.src = r, a.parentNode.insertBefore(k, a)
+  })
+  (window, document, "script", "https://mc.yandex.ru/metrika/tag.js", "ym");
+
+  ym(68806498, "init", {
+    clickmap: true,
+    trackLinks: true,
+    accurateTrackBounce: true
+  });
+</script>
+<noscript>
+  <div><img src="https://mc.yandex.ru/watch/68806498" style="position:absolute; left:-9999px;" alt=""/></div>
+</noscript>
+`:''}
+</body>
+</html>
