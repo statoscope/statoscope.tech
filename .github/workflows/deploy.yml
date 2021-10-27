@@ -15,18 +15,14 @@ jobs:
         run: npm ci
       - name: Build
         run: npm run build:prod
-      - name: Configure SSH
-        run: |
-          mkdir -p ~/.ssh/
-          echo "$SSH_KEY" > ~/.ssh/statoscope.tech.key
-          chmod 600 ~/.ssh/statoscope.tech.key
-          cat >>~/.ssh/config <<END
-          Host statoscope.tech
-            IdentityFile ~/.ssh/statoscope.tech.key
-            StrictHostKeyChecking no
-          END
+      - name: Install SSH key
+        uses: shimataro/ssh-key-action@v2
+        with:
+          key: ${{ secrets.SSH_KEY }}
+          known_hosts: ${{ secrets.KNOWN_HOSTS }}
         env:
           SSH_KEY: ${{ secrets.STATOSCOPE_TECH_SSH_KEY }}
+          KNOWN_HOSTS: ${{ secrets.STATOSCOPE_TECH_SSH_KNOWN_HOSTS }}
 
       - name: Upload
         run: |
