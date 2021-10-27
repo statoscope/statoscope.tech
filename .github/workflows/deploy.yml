@@ -18,17 +18,19 @@ jobs:
       - name: Install SSH key
         uses: shimataro/ssh-key-action@v2
         with:
-          key: ${{ secrets.SSH_KEY }}
-          known_hosts: ${{ secrets.KNOWN_HOSTS }}
-        env:
-          SSH_KEY: ${{ secrets.STATOSCOPE_TECH_SSH_KEY }}
-          KNOWN_HOSTS: ${{ secrets.STATOSCOPE_TECH_SSH_KNOWN_HOSTS }}
+          key: ${{ secrets.STATOSCOPE_TECH_SSH_KEY }}
+          known_hosts: ${{ secrets.STATOSCOPE_TECH_SSH_KNOWN_HOSTS }}
+          config: |
+            Host statoscope.tech
+              User ${{ secrets.STATOSCOPE_TECH_SSH_USER }}
 
       - name: Upload
         run: |
+          ssh statoscope.tech 'cd statoscope.tech; rm -rf public_tmp'
           scp -r ./public statoscope.tech:statoscope.tech/public_tmp
-          ssh statoscope.tech 'cd statoscope.tech; rm -rf public; mv public_tmp public'
-          END
+          scp ./docker-compose.yml statoscope.tech:statoscope.tech/docker-compose.yml
+          scp -r ./server statoscope.tech:statoscope.tech
+          ssh statoscope.tech 'cd statoscope.tech; rm -rf public/*; mv public_tmp/* public/'
 
       - name: Restart server
-        run: ssh statoscope.tech 'docker-compose build; ssh statoscope.tech 'docker-compose up -d'
+        run: ssh statoscope.tech 'cd statoscope.tech; docker-compose build; docker-compose up -d'
