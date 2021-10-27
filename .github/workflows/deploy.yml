@@ -1,0 +1,40 @@
+name: Deploy
+
+on:
+  push:
+    branches:
+      - master
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - uses: actions/setup-node@v2
+        with:
+          node-version: 12
+      - name: Install
+        run: npm ci
+      - name: Build
+        run: npm run build:prod
+      - name: Configure SSH
+        run: |
+          mkdir -p ~/.ssh/
+          echo "$SSH_KEY" > ~/.ssh/statoscope.tech.key
+          chmod 600 ~/.ssh/statoscope.tech.key
+          cat >>~/.ssh/config <<END
+          Host statoscope.tech
+            IdentityFile ~/.ssh/statoscope.tech.key
+            StrictHostKeyChecking no
+          END
+        env:
+          SSH_KEY: ${{ secrets.STATOSCOPE_TECH_SSH_KEY }}
+
+      - name: Upload
+        run: |
+          scp -r ./public statoscope.tech:statoscope.tech/public_tmp
+          ssh statoscope.tech 'cd statoscope.tech; rm -rf public; mv public_tmp public'
+          END
+
+      - name: Restart server
+        run: ssh statoscope.tech 'docker-compose build; ssh statoscope.tech 'docker-compose up -d'

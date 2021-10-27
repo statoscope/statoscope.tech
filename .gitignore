@@ -1,0 +1,9 @@
+.idea/
+.vscode/
+node_modules/
+dist/
+public/
+*.log
+*.lock
+.DS_store
+.eslintcache

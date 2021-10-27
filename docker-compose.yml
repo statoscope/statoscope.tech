@@ -1,0 +1,18 @@
+version: "3"
+
+services:
+  statoscope-nginx:
+    image: nginx:mainline-alpine
+    container_name: statoscope-nginx
+    restart: always
+    volumes:
+      - ./public:/var/www/html
+      - ./server/nginx-conf:/etc/nginx/conf.d
+    networks:
+      - app-network
+      - wdx-network
+networks:
+  app-network:
+    driver: bridge
+  wdx-network:
+    external: true

@@ -1,0 +1,91 @@
+:global(.hidden) {
+    display: none !important;
+}
+
+:global(#splash) {
+    font-family: monospace, sans-serif;
+
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    width: 100vw;
+    height: 100vh;
+}
+
+:global(#splash) :global(.command) {
+    display: inline-block;
+    color: brown;
+}
+
+:global(#splash) :global(#splash-content) {
+    display: flex;
+    flex-direction: column;
+    margin: 5px;
+}
+
+:global(#splash) :global(.name) {
+    margin-bottom: 5px;
+}
+
+:global(#splash) :global(.description) {
+    color: rgba(0, 0, 0, 0.8);
+}
+
+:global(#splash) :global(#instructions) {
+    margin-top: 20px;
+    padding: 50px;
+    border: 2px dashed rgba(0, 0, 0, 0.6);
+    border-radius: 10px;
+    max-width: 530px;
+}
+
+:global(#splash) :global(#error) {
+    color: brown;
+}
+
+:global(#splash) :global(.pseudo-link) {
+    text-decoration: underline;
+    cursor: pointer;
+
+}
+
+:global(#splash) :global(#copyright) {
+    font-size: 0.8em;
+    margin-top: 40px;
+}
+
+:global(#splash) :global(.ps) {
+    font-size: 14px;
+}
+
+:global(#analytics-warning) {
+    display: flex;
+    position: fixed;
+    padding: 1em;
+    margin: 1em;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    border: 1px solid #b3d0e4;
+    border-radius: 5px;
+    background: #1a3242eb;
+    font-family: monospace, sans-serif;
+    color: white;
+    align-items: center;
+    justify-content: center;
+}
+
+:global(#analytics-warning) a, :global(#analytics-warning) a:visited {
+    color: #ffc6c6;
+}
+
+:global(#close-analytics-warning) {
+    background: #764141;
+    border-radius: 5px;
+    border: 0;
+    color: white;
+    padding: 10px;
+    margin-left: 3em;
+    cursor: pointer;
+}
