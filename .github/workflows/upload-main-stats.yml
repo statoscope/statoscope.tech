@@ -16,9 +16,9 @@ jobs:
       - name: Install
         run: npm ci
       - name: Build
-        run: npm run build:prod
+        run: npm run build:prod; cp ./public/demo-stats.json ./reference.json
 
       - uses: actions/upload-artifact@v2
         with:
           name: main-stats
-          path: ./public/demo-stats.json
+          path: ./reference.json
