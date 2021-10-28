@@ -7,7 +7,7 @@ on:
   pull_request:
 
 jobs:
-  ci:
+  build:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
@@ -18,5 +18,71 @@ jobs:
         run: npm ci
       - name: Build
         run: npm run build
+      - name: Cache results
+        uses: actions/cache@v2
+        id: cache-results
+        with:
+          path: |
+            node_modules
+            public
+          key: ${{ github.sha }}
+  statoscope:
+    needs:
+      - build
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - uses: actions/setup-node@v2
+        with:
+          node-version: 16
+      - name: Restore cache
+        uses: actions/cache@v2
+        id: restore-cache
+        with:
+          path: |
+            node_modules
+            public
+          key: ${{ github.sha }}
+      - name: Download artifact
+        uses: actions/download-artifact@v2
+        with:
+          name: main-stats
+          path: ./
+        continue-on-error: true
+      - name: Prepare input stats
+        run: cp public/demo-stats.json input.json; npm i mustache
+      - name: Query stats
+        run: cat .github/workflows/statoscope-comment.jora | npx --no-install @statoscope/cli query --input input.json --input reference.json > result.json
+      - name: Comment PR
+        uses: actions/github-script@v5
+        with:
+          script: |
+            const fs = require('fs');
+            const Mustache = require('mustache');
+
+            const createPRComment = require('./scripts/createPRComment');
+            const template = fs.readFileSync("./.github/workflows/statoscope-comment.mustache", 'utf8');
+
+            const data = JSON.parse(fs.readFileSync('result.json', 'utf8'));
+            const body = Mustache.render(template, data);
+
+            await createPRComment({github, context, core, body})
+  ci:
+    needs:
+      - build
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - uses: actions/setup-node@v2
+        with:
+          node-version: 16
+      - name: Restore cache
+        uses: actions/cache@v2
+        id: restore-cache
+        with:
+          path: |
+            node_modules
+            public
+          key: ${{ github.sha }}
       - name: Lint
         run: npm run lint
