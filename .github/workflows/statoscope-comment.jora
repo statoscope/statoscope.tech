@@ -28,5 +28,10 @@ $getSizeByChunks: => files.(getAssetSize($$, true)).reduce(=> size + $$, 0);
       value: $after - $before,
       formatted: { type: 'size', a: $before, b: $after } | formatDiff() + ` (${b.percentFrom(a, 2)}%)`,
     }
+  },
+  validation: {
+    $messages: resolveInputFile().compilations.[hash].(hash.validation_getItems());
+    $messages,
+    total: $messages.size()
   }
 }

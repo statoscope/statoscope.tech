@@ -5,14 +5,10 @@ module.exports = {
     plugins: ['@statoscope/webpack'],
     reporters: [
       '@statoscope/console',
-      [
-        '@statoscope/stats-report',
-        { saveOnlyStats: true, saveStatsTo: 'public/demo-stats.json' },
-      ],
+      ['@statoscope/stats-report', { saveReportTo: 'report/statoscope/index.html' }],
     ],
     rules: {
-      '@statoscope/webpack/build-time-limits': ['error', { global: 10000 }],
-      '@statoscope/webpack/restricted-packages': ['error', [/@wdxlab/]],
+      '@statoscope/webpack/no-packages-dups': ['error'],
     },
   },
 };
