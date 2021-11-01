@@ -9,6 +9,7 @@ module.exports = {
     ],
     rules: {
       '@statoscope/webpack/no-packages-dups': ['error'],
+      '@statoscope/webpack/restricted-packages': ['error', [/wdxlab/]],
     },
   },
 };

@@ -59,11 +59,11 @@ jobs:
         run: |
           aws --endpoint-url=${AWS_ENDPOINT} \
               s3 cp report/statoscope/index.html s3://${AWS_BUCKET}/${{ github.ref }}/; \
-              echo ::set-output name=DOWNLOAD_LINK::$(aws --endpoint-url=${AWS_ENDPOINT} s3 presign s3://${AWS_BUCKET}/${{ github.ref }}/index.html)
+              echo ::set-output name=DOWNLOAD_LINK::$(aws --endpoint-url=${AWS_LINK_ENDPOINT} s3 presign s3://${AWS_BUCKET}/${{ github.ref }}/index.html)
         env:
-          AWS_BUCKET: statoscope-reports
-          #https://s3-storage.statoscope.tech
+          AWS_BUCKET: ci-reports.statoscope.tech
           AWS_ENDPOINT: https://storage.yandexcloud.net
+          AWS_LINK_ENDPOINT: https://ci-reports.statoscope.tech
           AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
           AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
           AWS_DEFAULT_REGION: ru-central1
