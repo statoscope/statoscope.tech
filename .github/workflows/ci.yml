@@ -52,10 +52,10 @@ jobs:
       - name: Validate
         run: npm run statoscope:validate-diff
       - name: Query stats
-        if: "always()"
+        if: "github.event_name == 'pull_request'"
         run: cat .github/workflows/statoscope-comment.jora | npx --no-install @statoscope/cli query --input input.json --input reference.json > result.json
       - name: Upload UI report to S3
-        if: "always()"
+        if: "github.event_name == 'pull_request'"
         id: upload-to-s3
         run: |
           aws --endpoint-url=${AWS_ENDPOINT} \
@@ -68,7 +68,7 @@ jobs:
           AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
           AWS_DEFAULT_REGION: ru-central1
       - name: Comment PR
-        if: "always()"
+        if: "github.event_name == 'pull_request'"
         uses: actions/github-script@v5
         with:
           script: |
