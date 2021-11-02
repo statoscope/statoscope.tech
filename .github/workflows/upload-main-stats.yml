@@ -17,7 +17,6 @@ jobs:
         run: npm ci
       - name: Build
         run: NODE_ENV=production webpack; cp ./public/demo-stats.json ./reference.json
-
       - uses: actions/upload-artifact@v2
         with:
           name: main-stats

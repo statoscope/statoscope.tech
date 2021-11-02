@@ -7,10 +7,12 @@
     "predev": "npm run build",
     "dev": "webpack serve",
     "prebuild:prod": "rm -rf public/*",
-    "build:prod": "NODE_ENV=production webpack && cp src/statoscope.png public/ && statoscope validate --input public/demo-stats.json || true",
+    "build:prod": "NODE_ENV=production webpack && cp src/statoscope.png public/ && statoscope validate --config=./statoscope.config.demo.js --input public/demo-stats.json || true",
     "lint": "npm run lint:eslint",
     "lint:eslint": "eslint . --ext .js,.ts --cache",
-    "lint:eslint:fix": "npm run lint:eslint -- --fix"
+    "lint:eslint:fix": "npm run lint:eslint -- --fix",
+    "statoscope:validate": "statoscope validate --input  public/demo-stats.json",
+    "statoscope:validate-diff": "statoscope validate --input input.json --reference reference.json"
   },
   "devDependencies": {
     "@babel/core": "^7.13.10",
@@ -29,6 +31,7 @@
     "html-loader": "^0.5.5",
     "html-webpack-plugin": "^5.3.1",
     "mini-css-extract-plugin": "^1.3.9",
+    "mustache": "^4.2.0",
     "prettier": "^2.2.1",
     "style-loader": "^2.0.0",
     "webpack": "^5.53.0",
