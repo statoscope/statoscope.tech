@@ -31,6 +31,10 @@ module.exports = {
     noParse: [/@statoscope/],
     rules: [
       {
+        test: /\.svg$/,
+        type: 'asset/resource',
+      },
+      {
         test: /\.js?$/,
         exclude: /node_modules/,
         use: 'babel-loader',

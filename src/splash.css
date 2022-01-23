@@ -13,6 +13,10 @@
     height: 100vh;
 }
 
+:global(#splash) a, :global(#splash) a:visited {
+    color: brown;
+}
+
 :global(#splash) :global(.command) {
     display: inline-block;
     color: brown;
@@ -26,6 +30,18 @@
 
 :global(#splash) :global(.name) {
     margin-bottom: 5px;
+    display: flex;
+    align-items: center;
+}
+
+:global(#splash) :global(.name):before {
+    display: block;
+    width: 40px;
+    height: 40px;
+    margin-right: 10px;
+    content: '';
+    background-image: url(./logo.svg);
+    background-size: cover;
 }
 
 :global(#splash) :global(.description) {
