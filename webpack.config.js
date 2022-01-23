@@ -65,6 +65,7 @@ module.exports = {
         context: __dirname,
       },
       saveStatsTo: path.resolve('./public/demo-stats.json'),
+      normalizeStats: true,
       open: 'file',
       reports,
       extensions: [new WebpackContextExtension()],
