@@ -10,7 +10,7 @@
     align-items: center;
     justify-content: center;
     width: 100vw;
-    height: 100vh;
+    min-height: 100vh;
 }
 
 :global(#splash) a, :global(#splash) a:visited {
@@ -69,6 +69,7 @@
 :global(#splash) :global(#copyright) {
     font-size: 0.8em;
     margin-top: 40px;
+    margin-bottom: 20px;
 }
 
 :global(#splash) :global(.ps) {
