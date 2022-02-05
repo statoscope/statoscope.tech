@@ -2,7 +2,7 @@
   "name": "statoscope-tech",
   "private": true,
   "scripts": {
-    "start": "static public",
+    "start": "static public -p 80",
     "build": "webpack && statoscope validate --input public/demo-stats.json || true",
     "predev": "npm run build",
     "dev": "webpack serve",
