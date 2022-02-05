@@ -2,12 +2,12 @@
   "name": "statoscope-tech",
   "private": true,
   "scripts": {
-    "start": "npm run dev",
-    "build": "webpack && statoscope validate --input public/demo-stats.json || true",
+    "start": "static public -a 0.0.0.0 -p ${PORT:-8080}",
+    "build": "webpack && cp src/statoscope.png src/favicon.ico public/ && statoscope validate --config=./statoscope.config.demo.js --input public/demo-stats.json || true",
     "predev": "npm run build",
     "dev": "webpack serve",
     "prebuild:prod": "rm -rf public/*",
-    "build:prod": "NODE_ENV=production webpack && cp src/statoscope.png src/favicon.ico public/ && statoscope validate --config=./statoscope.config.demo.js --input public/demo-stats.json || true",
+    "build:prod": "NODE_ENV=production npm run build",
     "lint": "npm run lint:eslint",
     "lint:eslint": "eslint . --ext .js,.ts --cache",
     "lint:eslint:fix": "npm run lint:eslint -- --fix",
@@ -41,6 +41,7 @@
   "dependencies": {
     "@discoveryjs/json-ext": "^0.5.3",
     "@statoscope/webpack-plugin": "5.20.0",
-    "@wdxlab/events": "^1.1.0"
+    "@wdxlab/events": "^1.1.0",
+    "node-static": "^0.7.11"
   }
 }
