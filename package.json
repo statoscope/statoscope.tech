@@ -2,7 +2,7 @@
   "name": "statoscope-tech",
   "private": true,
   "scripts": {
-    "start": "npm run dev",
+    "start": "static public",
     "build": "webpack && statoscope validate --input public/demo-stats.json || true",
     "predev": "npm run build",
     "dev": "webpack serve",
@@ -41,6 +41,7 @@
   "dependencies": {
     "@discoveryjs/json-ext": "^0.5.3",
     "@statoscope/webpack-plugin": "5.20.0",
-    "@wdxlab/events": "^1.1.0"
+    "@wdxlab/events": "^1.1.0",
+    "node-static": "^0.7.11"
   }
 }
