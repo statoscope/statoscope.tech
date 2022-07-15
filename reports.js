@@ -1,7 +1,7 @@
 /* eslint-env node */
 
 const fs = require('fs');
-const buildStats = require('./demo-bundle-history');
+// const buildStats = require('./demo-bundle-history');
 
 const customReport1DemoText = `
 ### This is a custom report
