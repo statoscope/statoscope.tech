@@ -37,7 +37,8 @@ module.exports = [
       },
     ],
   },
-  {
+  // fixme: highcharts was removed from statoscope and will be replaced later
+  /*{
     id: 'report-with-a-chart',
     name: 'Report with a chart',
     data: buildStats,
@@ -73,7 +74,7 @@ module.exports = [
         ],
       }`,
     },
-  },
+  },*/
   {
     id: 'report-view-can-be-a-script',
     name: 'Report view can be a script',
