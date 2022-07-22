@@ -1,7 +1,7 @@
 /* eslint-env node */
 
 const fs = require('fs');
-// const buildStats = require('./demo-bundle-history');
+const buildStats = require('./demo-bundle-history');
 
 const customReport1DemoText = `
 ### This is a custom report
@@ -37,44 +37,47 @@ module.exports = [
       },
     ],
   },
-  // fixme: highcharts was removed from statoscope and will be replaced later
-  /*{
+  {
     id: 'report-with-a-chart',
     name: 'Report with a chart',
     data: buildStats,
     view: {
-      view: 'chart',
-      options: `{
-        title: {
-          text: 'Bundle history',
-        },
-        chart: {
+      view: 'box',
+      options: { height: '400px' },
+      content: {
+        view: 'chart',
+        data: `{
           type: 'line',
-        },
-        xAxis: {
-          categories: .date,
-        },
-        plotOptions: {
-          line: {
-            dataLabels: {
-              enabled: true,
-            },
-            enableMouseTracking: false,
+          data: {
+            labels: .date,
+            datasets: [{
+              label: 'Build Time (sec)',
+              data: .size,
+              borderColor: '#f00',
+              backgroundColor: '#f00',
+            }, {
+                label: 'Bundle Size (mb)',
+                data: .time,
+                borderColor: '#00f',
+                backgroundColor: '#00f',
+            }]
           },
-        },
-        series: [
-          {
-            name: 'Build Time (sec)',
-            data: .time,
+          options: {
+            responsive: true,
+            plugins: {
+              legend: {
+                position: 'top',
+              },
+              title: {
+                display: true,
+                text: 'Bundle history'
+              }
+            }
           },
-          {
-            name: 'Bundle Size (mb)',
-            data: .size,
-          },
-        ],
-      }`,
+        }`,
+      },
     },
-  },*/
+  },
   {
     id: 'report-view-can-be-a-script',
     name: 'Report view can be a script',
