@@ -17,9 +17,9 @@
   "devDependencies": {
     "@babel/core": "^7.18.6",
     "@babel/preset-env": "^7.18.6",
-    "@statoscope/cli": "^5.26.2",
-    "@statoscope/stats-validator-plugin-webpack": "^5.26.2",
-    "@statoscope/webpack-ui": "5.26.2",
+    "@statoscope/cli": "^5.27.0",
+    "@statoscope/stats-validator-plugin-webpack": "^5.27.0",
+    "@statoscope/webpack-ui": "5.27.0",
     "babel-loader": "^8.2.5",
     "css-loader": "^5.2.7",
     "eslint": "^7.32.0",
@@ -40,7 +40,7 @@
   },
   "dependencies": {
     "@discoveryjs/json-ext": "^0.5.7",
-    "@statoscope/webpack-plugin": "^5.25.1",
+    "@statoscope/webpack-plugin": "^5.27.0",
     "@wdxlab/events": "^1.1.0",
     "node-static": "^0.7.11"
   }

@@ -1,12 +1,10 @@
 /* global ym */
 
-import { parseChunked } from '@discoveryjs/json-ext';
 import './splash.css';
-import initStatoscope from '@statoscope/webpack-ui';
-import MultipleReader from './multipleReader';
+import initStatoscope, { Discovery } from '@statoscope/webpack-ui';
 
 const splash = document.querySelector('#splash');
-const progress = document.querySelector('#splash #progress');
+const progressContainer = document.querySelector('#splash #progress');
 const error = document.querySelector('#splash #error');
 const instructions = document.querySelector('#splash #instructions');
 const fileInput = document.querySelector('#splash #file-input');
@@ -49,20 +47,20 @@ uploadButton.addEventListener('click', () => fileInput.click());
 
 fileInput.addEventListener('change', ({ target: { files } }) => {
   if (files.length) {
-    handleFiles(Array.from(files)).then(init);
+    handleFiles(Array.from(files)).finally(destroyProgressBars).then(init);
   }
 });
 
-demoButton.addEventListener('click', () => {
+demoButton.addEventListener('click', async () => {
   reachGoal('demo');
 
   instructions.classList.add('hidden');
-  progress.classList.remove('hidden');
 
-  progress.textContent = 'Demo stats is loading...';
-  fetch('demo-stats.json')
-    .then((r) => r.json())
-    .then((data) => init([{ name: 'demo-stats.js', data }]));
+  const loaderResult = await loadDataWithProgress(() =>
+    Discovery.utils.loadDataFromUrl('demo-stats.json', {})
+  );
+
+  init([{ name: 'demo-stats.js', data: loaderResult.data }]);
 });
 
 document.addEventListener(
@@ -114,7 +112,7 @@ splash.addEventListener('drop', function (e) {
   }
 
   if (files.length) {
-    handleFiles(files).then(init);
+    handleFiles(files).finally(destroyProgressBars).then(init);
   }
 });
 
@@ -128,48 +126,55 @@ splash.addEventListener('dragend', function (e) {
   }
 });
 
-function delay(ms, data) {
-  return new Promise((resolve) => {
-    setTimeout(() => resolve(data), ms);
-  });
+function makeProgressBar() {
+  const progressbar = new Discovery.utils.progressbar({});
+  makeProgressBar.set.add(progressbar);
+  return progressbar;
 }
 
-function handleFiles(files) {
+function destroyProgressBars() {
+  for (const progressbar of makeProgressBar.set) {
+    progressbar.el.remove();
+  }
+}
+
+makeProgressBar.set = new Set();
+
+async function loadDataWithProgress(loaderFn) {
+  const progressbar = makeProgressBar();
+
+  progressContainer.append(progressbar.el);
+
+  const loader = loaderFn();
+  await Discovery.utils.syncLoaderWithProgressbar(loader, progressbar);
+
+  return loader.result;
+}
+
+async function handleFiles(files) {
   instructions.classList.add('hidden');
-  progress.classList.remove('hidden');
-  progress.textContent = '🏗 preparing...';
   error.classList.remove('hidden');
   error.innerHTML = '';
 
-  const multiReader = new MultipleReader(files);
-  multiReader.eventProgress.on((sender, { total, loaded }) => {
-    progress.textContent = `🏗 ${parseInt((100 / total) * loaded)}% loaded`;
-  });
-  return multiReader
-    .read()
-    .then((files) => {
-      progress.textContent = 'parsing 🏗';
-      return delay(150, files);
+  const rawData = [];
+
+  await Promise.all(
+    files.map(async (file) => {
+      try {
+        const loadResult = await loadDataWithProgress(() =>
+          Discovery.utils.loadDataFromFile(file, {})
+        );
+        rawData.push({
+          name: file.name,
+          data: loadResult.data,
+        });
+        reachGoal('json_upload');
+      } catch (e) {
+        error.innerHTML = `😭 Can't load ${file.name}<br/>${e.message}<br/>Please, try again`;
+        throw e;
+      }
     })
-    .then((files) => {
-      files = Promise.all(
-        files.map(async (file) => {
-          try {
-            const data = await parseChunked(() => file.content);
-            reachGoal('json_upload');
-            return { name: file.name, data };
-          } catch (e) {
-            e.file = file.name;
-            throw e;
-          }
-        })
-      );
-      progress.textContent = 'almost done 🚀';
-      return delay(150, files);
-    })
-    .catch((e) => {
-      const message = `😭 Can't load ${e.file}<br/>${e.message}<br/>Please, try again`;
-      error.innerHTML = message;
-      throw new Error(message);
-    });
+  );
+
+  return rawData;
 }

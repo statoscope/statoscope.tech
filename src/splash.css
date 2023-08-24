@@ -106,3 +106,7 @@
     margin-left: 3em;
     cursor: pointer;
 }
+
+:global(#progress) {
+    margin-top: 30px;
+}
