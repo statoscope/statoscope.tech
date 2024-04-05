@@ -33,4 +33,4 @@ jobs:
           ssh statoscope.tech 'cd statoscope.tech; rm -rf public/*; mv public_tmp/* public/'
 
       - name: Restart server
-        run: ssh statoscope.tech 'cd statoscope.tech; sudo docker-compose up --force-recreate -d'
+        run: ssh statoscope.tech 'cd statoscope.tech; sudo docker compose up --force-recreate -d'
