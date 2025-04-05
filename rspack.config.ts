@@ -1,11 +1,13 @@
 /* eslint-env node */
 
-const path = require('path');
-const HtmlWebpackPlugin = require('html-webpack-plugin');
-const MiniCssExtractPlugin = require('mini-css-extract-plugin');
-const StatoscopeWebpackPlugin = require('@statoscope/webpack-plugin').default;
-const reports = require('./reports');
-const WebpackContextExtension = require('./custom-ext');
+import path from "node:path";
+
+import HtmlWebpackPlugin from "html-webpack-plugin";
+import StatoscopeWebpackPlugin from "@statoscope/webpack-plugin";
+import reports from "./reports";
+import WebpackContextExtension from "./custom-ext";
+import rspack from "@rspack/core";
+import {RsdoctorRspackPlugin} from "@rsdoctor/rspack-plugin";
 
 const mode = process.env.NODE_ENV === 'production' ? 'production' : 'development';
 
@@ -43,7 +45,7 @@ module.exports = {
         test: /\.css$/,
         include: [path.resolve('src')],
         use: [
-          MiniCssExtractPlugin.loader,
+          rspack.CssExtractRspackPlugin.loader,
           {
             loader: 'css-loader',
             options: {
@@ -51,6 +53,7 @@ module.exports = {
             },
           },
         ],
+        type: 'javascript/auto',
       },
       {
         test: /\.html$/i,
@@ -64,17 +67,21 @@ module.exports = {
     ],
   },
   plugins: [
+    process.env.RSDOCTOR &&
+    new RsdoctorRspackPlugin({
+      // plugin options
+    }),
     new StatoscopeWebpackPlugin({
       statsOptions: {
         context: __dirname,
       },
-      saveStatsTo: path.resolve('./public/demo-stats.webpack.json'),
+      saveStatsTo: path.resolve('./public/demo-stats.rspack.json'),
       normalizeStats: true,
       open: 'file',
       reports,
       extensions: [new WebpackContextExtension()],
     }),
-    new MiniCssExtractPlugin({
+    new rspack.CssExtractRspackPlugin({
       filename: '[name].[contenthash:7].css',
     }),
     new HtmlWebpackPlugin({

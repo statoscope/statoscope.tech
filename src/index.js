@@ -9,7 +9,6 @@ const error = document.querySelector('#splash #error');
 const instructions = document.querySelector('#splash #instructions');
 const fileInput = document.querySelector('#splash #file-input');
 const uploadButton = document.querySelector('#splash #upload-button');
-const demoButton = document.querySelector('#splash #demo-button');
 
 function reachGoal(name, params) {
   if (typeof ym !== 'undefined') {
@@ -22,7 +21,7 @@ function init(files) {
     const { data } = item;
 
     if (data.version) {
-      reachGoal('webpack', { version: data.version });
+      reachGoal(data.bundler || 'webpack', { version: data.version });
     }
   }
 
@@ -51,16 +50,20 @@ fileInput.addEventListener('change', ({ target: { files } }) => {
   }
 });
 
-demoButton.addEventListener('click', async () => {
+document.addEventListener('click', async (e) => {
+  if (!e.target.classList.contains('demo-button')) {
+    return;
+  }
+
   reachGoal('demo');
 
   instructions.classList.add('hidden');
 
   const loaderResult = await loadDataWithProgress(() =>
-    Discovery.utils.loadDataFromUrl('demo-stats.json', {})
+    Discovery.utils.loadDataFromUrl(e.target.dataset.file, {})
   );
 
-  init([{ name: 'demo-stats.js', data: loaderResult.data }]);
+  init([{ name: e.target.dataset.file, data: loaderResult.data }]);
 });
 
 document.addEventListener(

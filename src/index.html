@@ -32,28 +32,40 @@
     <div class="description">detailed webpack stats analyzer</div>
 
     <div id="instructions">
-      <div>
-        1. run
-        <div class="command pseudo-link" data-may-copy="true" title="click to copy">
-          webpack --json stats.json
+      <div class="steps">
+        <div>
+          <div>
+            1. collect bundle stats
+          </div>
+          <div class="block">
+            <div class="command pseudo-link" data-may-copy="true" title="click to copy">
+              webpack --json stats.json
+            </div>
+            <div class="shaded">
+              or
+            </div>
+            <div class="command pseudo-link" data-may-copy="true" title="click to copy">
+              rspack --json stats.json
+            </div>
+          </div>
+        </div>
+        <div>
+          2. drop or
+          <div id="upload-button" class="command pseudo-link" title="click to upload">
+            upload
+          </div>
+          stats.json here to know the truth!
+          <div class="block">
+            Or use demo stats:
+            <ul>
+              <li><div class="demo-button command pseudo-link" data-file="demo-stats.webpack.json" title="click to upload">demo-stats.webpack.json</div></li>
+              <li><div class="demo-button command pseudo-link" data-file="demo-stats.rspack.json" title="click to upload">demo-stats.rspack.json</div></li>
+            </ul>
+          </div>
         </div>
       </div>
-      <div>
-        2. drop or
-        <div id="upload-button" class="command pseudo-link" title="click to upload">
-          upload
-        </div>
-        stats.json here to know the truth!
-      </div>
-      <br/>
-      <div>
-        Or use
-        <div id="demo-button" class="command pseudo-link" title="click to upload">demo</div>
-        stats.
-      </div>
-      <br/>
 
-      Also, use Statoscope as:
+      Statoscope also available as:
 
       <ul>
         <li>

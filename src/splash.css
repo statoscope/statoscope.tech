@@ -110,3 +110,17 @@
 :global(#progress) {
     margin-top: 30px;
 }
+
+:global(.steps) {
+    display: flex;
+    flex-direction: column;
+    gap: 1em;
+}
+
+:global(.shaded) {
+    color: #979797;
+}
+
+:global(.block) {
+    margin-left: 3ch;
+}
